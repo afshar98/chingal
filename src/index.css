@@ -1,3 +1,58 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+/*----- fonts -----*/
+@font-face {
+    font-family: IRANYekanX;
+    font-style: normal;
+    font-weight: 100;
+    src: url('assets/fonts/IRANYekanMobileThin.woff2') format('woff2')
+}
+@font-face {
+    font-family: IRANYekanX;
+    font-style: normal;
+    font-weight: 200;
+    src: url('assets/fonts/IRANYekanMobileLight.woff2') format('woff2')
+}
+@font-face {
+    font-family: IRANYekanX;
+    font-style: normal;
+    font-weight: 300;
+    src: url('assets/fonts/IRANYekanMobileRegular.woff2') format('woff2')
+}
+@font-face {
+    font-family: IRANYekanX;
+    font-style: normal;
+    font-weight: 400;
+    src: url('assets/fonts/IRANYekanMobileMedium.woff2') format('woff2')
+}
+@font-face {
+    font-family: IRANYekanX;
+    font-style: normal;
+    font-weight: 500;
+    src: url('assets/fonts/IRANYekanMobileBold.woff2') format('woff2')
+}
+@font-face {
+    font-family: IRANYekanX;
+    font-style: normal;
+    font-weight: 600;
+    src: url('assets/fonts/IRANYekanMobileBlack.woff2') format('woff2')
+}
+@font-face {
+    font-family: IRANYekanX;
+    font-style: normal;
+    font-weight: 800;
+    src: url('assets/fonts/IRANYekanMobileExtraBold.woff2') format('woff2')
+}
+@font-face {
+    font-family: IRANYekanX;
+    font-style: normal;
+    font-weight: 900;
+    src: url('assets/fonts/IRANYekanMobileExtraBlack.woff2') format('woff2')
+}
+
+*{
+    font-family: 'IRANYekanX', sans-serif;
+}
