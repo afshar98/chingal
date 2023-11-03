@@ -2,55 +2,70 @@ import React, {useEffect, useState} from 'react';
 import { useLoaderData } from "react-router";
 import {httpService} from "@core/http-service.js";
 import {calculateAge} from "../../../helper/functions.js";
+import {Controller, useForm} from "react-hook-form";
+import {redirect, useSubmit} from "react-router-dom";
 
 function UserDetails() {
 
     const data = useLoaderData();
-    const [selectedImage, setSelectedImage] = useState( data.avatar);
     const [imagePreview, setImagePreview] = useState(data.avatar);
-
-    const handleImageChange = (event) => {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                const imageData = e.target.result;
-                setSelectedImage(imageData);
-                setImagePreview(imageData);
-            };
-            reader.readAsDataURL(file);
-        } else {
-            setSelectedImage(null);
-            setImagePreview(null);
-        }
-    };
+    const {
+        register,
+        handleSubmit,
+        control,
+        formState: { errors },
+    } = useForm();
+    const submitForm = useSubmit();
 
     useEffect(() => {
         if (data.avatar) {
-            setSelectedImage(data.avatar);
             setImagePreview(data.avatar);
         }
     }, [data.avatar]);
+
+    const onSubmit = (data) => {
+        submitForm(data, { method: "put" });
+    };
 
     return (
         <div className="flex min-h-screen items-center justify-center">
             <div className="w-[540px] p-8 shadow-2xl border border-surface-300 rounded-2xl bg-surface-100 drop-shadow-[24px_24px_96px_#0C132C] mt-5 mb-5">
                 <h3 className="border-b border-surface-300 font-normal text-2xl pb-2 mb-5">ویرایش کاربر</h3>
 
-                <form>
+                <form onSubmit={handleSubmit(onSubmit)}>
 
                     <div className="flex items-center justify-center mb-5">
-                        <input
-                            type="file"
-                            accept="image/*"
-                            onChange={handleImageChange}
-                            className="opacity-0 z-10 cursor-pointer rounded-full absolute w-28 h-28"
+                        <Controller
+                            name="avatar" // The name for the form field
+                            control={control}
+                            defaultValue={data.avatar}
+                            render={({ field }) => (
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    className="opacity-0 z-10 cursor-pointer rounded-full absolute w-28 h-28"
+                                    onChange={(e) => {
+                                        const file = e.target.files[0];
+                                        if (file) {
+                                            const reader = new FileReader();
+                                            reader.onload = (e) => {
+                                                field.onChange(e.target.result); // Set Base64 string
+                                                setImagePreview(e.target.result);
+                                            };
+                                            reader.readAsDataURL(file);
+                                        } else {
+                                            field.onChange(data.avatar); // Reset to empty string
+                                            setImagePreview(null);
+                                        }
+                                    }}
+                                />
+                            )}
                         />
-                        {selectedImage && (
+                        {imagePreview && (
                             <img
                                 src={imagePreview}
                                 alt="avatar"
-                                className="rounded-full overflow-hidden relative w-28 h-28 object-cover border border-2 border-primary-500 p-1"
+                                className="rounded-full overflow-hidden relative w-28 h-28 object-cover border-2 border-primary-500 p-1"
                             />
                         )}
                     </div>
@@ -59,20 +74,40 @@ function UserDetails() {
                         <div className="flex flex-col w-[calc(50%-10px)]">
                             <label className="text-surface-500 font-sm mb-2">نام کاربر</label>
                             <input
-                                type="text"
-                                value={data.name}
-                                className="text-lg bg-surface-100 text-surface-900 w-full h-12 border border-surface-400 rounded-lg p-4"
-                                required
+                                className={`text-lg bg-surface-100 text-surface-900 w-full h-12 border border-surface-400 rounded-lg p-4 ${
+                                    errors.name && "border-ui-red-500"
+                                }`}
+                                {...register("name", {
+                                    required: true,
+                                    value: data.name
+                                })}
                             />
+                            {errors.name && errors.name.type === "required" && (
+                                <p className="text-ui-red-500 text-sm mt-1">
+                                    این فیلد الزامی است.
+                                </p>
+                            )}
                         </div>
                         <div className="flex flex-col w-[calc(50%-10px)]">
                             <label className="text-surface-500 font-sm mb-2">سن</label>
                             <input
-                                type="number"
-                                value={calculateAge(data.dateOfBirth)}
-                                className="text-lg bg-surface-100 text-surface-900 w-full h-12 border border-surface-400 rounded-lg p-4"
-                                required
+                                className={`text-lg bg-surface-100 text-surface-900 w-full h-12 border border-surface-400 rounded-lg p-4 ${
+                                    errors.age && "border-ui-red-500"
+                                }`}
+                                {...register("age", {
+                                    required: true,
+                                    value:calculateAge(data.dateOfBirth),
+                                    pattern: /^[0-9]{1,3}$/
+                                })}
                             />
+                            {errors.age && errors.age.type === "required" && (
+                                <p className="text-ui-red-500 text-sm mt-1">
+                                    این فیلد الزامی است.
+                                </p>
+                            )}
+                            {errors.age && errors.age.type === "pattern" && (
+                                <p className="text-ui-red-500 text-sm mt-1">فرمت وارد شده صحیح نیست.</p>
+                            )}
                         </div>
                     </div>
 
@@ -80,19 +115,44 @@ function UserDetails() {
                         <div className="flex flex-col w-[calc(50%-10px)]">
                             <label className="text-surface-500 font-sm mb-2">ایمیل</label>
                             <input
-                                type="email"
-                                value={data.email}
-                                className="text-lg bg-surface-100 text-surface-900 w-full h-12 border border-surface-400 rounded-lg p-4"
-                                required
+                                className={`text-lg bg-surface-100 text-surface-900 w-full h-12 border border-surface-400 rounded-lg p-4 ${
+                                    errors.email && "border-ui-red-500"
+                                }`}
+                                {...register("email", {
+                                    required: true,
+                                    value:data.email,
+                                    pattern: /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/
+                                })}
                             />
+                            {errors.email && errors.email.type === "required" && (
+                                <p className="text-ui-red-500 text-sm mt-1">
+                                    این فیلد الزامی است.
+                                </p>
+                            )}
+                            {errors.email && errors.email.type === "pattern" && (
+                                <p className="text-ui-red-500 text-sm mt-1">فرمت وارد شده صحیح نیست.</p>
+                            )}
                         </div>
                         <div className="flex flex-col w-[calc(50%-10px)]">
                             <label className="text-surface-500 font-sm mb-2">شماره تلفن</label>
                             <input
-                                type="text"
-                                value={data.phoneNumber}
-                                className="text-lg bg-surface-100 text-surface-900 w-full h-12 border border-surface-400 rounded-lg p-4"
+                                className={`text-lg bg-surface-100 text-surface-900 w-full h-12 border border-surface-400 rounded-lg p-4 ${
+                                    errors.email && "border-ui-red-500"
+                                }`}
+                                {...register("phoneNumber", {
+                                    required: true,
+                                    value:data.phoneNumber,
+                                    pattern: /[0-9]{11}/
+                                })}
                             />
+                            {errors.phoneNumber && errors.phoneNumber.type === "required" && (
+                                <p className="text-ui-red-500 text-sm mt-1">
+                                    این فیلد الزامی است.
+                                </p>
+                            )}
+                            {errors.phoneNumber && errors.phoneNumber.type === "pattern" && (
+                                <p className="text-ui-red-500 text-sm mt-1">فرمت وارد شده صحیح نیست.</p>
+                            )}
                         </div>
                     </div>
 
@@ -100,33 +160,45 @@ function UserDetails() {
                         <div className="flex flex-col w-[calc(25%-10px)]">
                             <label className="text-surface-500 font-sm mb-2">کشور</label>
                             <input
-                                type="text"
-                                value={data.country}
-                                className="text-lg bg-surface-100 text-surface-900 w-full h-12 border border-surface-400 rounded-lg p-4"
+                                className={`text-lg bg-surface-100 text-surface-900 w-full h-12 border border-surface-400 rounded-lg p-4 ${
+                                    errors.name && "border-ui-red-500"
+                                }`}
+                                {...register("country", {
+                                    value: data.country
+                                })}
                             />
                         </div>
                         <div className="flex flex-col w-[calc(25%-10px)]">
                             <label className="text-surface-500 font-sm mb-2">شهر</label>
                             <input
-                                type="text"
-                                value={data.city}
-                                className="text-lg bg-surface-100 text-surface-900 w-full h-12 border border-surface-400 rounded-lg p-4"
+                                className={`text-lg bg-surface-100 text-surface-900 w-full h-12 border border-surface-400 rounded-lg p-4 ${
+                                    errors.city && "border-ui-red-500"
+                                }`}
+                                {...register("city", {
+                                    value: data.city
+                                })}
                             />
                         </div>
                         <div className="flex flex-col w-[calc(25%-10px)]">
                             <label className="text-surface-500 font-sm mb-2">خیابان</label>
                             <input
-                                type="text"
-                                value={data.street}
-                                className="text-lg bg-surface-100 text-surface-900 w-full h-12 border border-surface-400 rounded-lg p-4"
+                                className={`text-lg bg-surface-100 text-surface-900 w-full h-12 border border-surface-400 rounded-lg p-4 ${
+                                    errors.street && "border-ui-red-500"
+                                }`}
+                                {...register("street", {
+                                    value: data.street
+                                })}
                             />
                         </div>
                         <div className="flex flex-col w-[calc(25%-10px)]">
                             <label className="text-surface-500 font-sm mb-2">کد پستی</label>
                             <input
-                                type="text"
-                                value={data.zipcode}
-                                className="text-lg bg-surface-100 text-surface-900 w-full h-12 border border-surface-400 rounded-lg p-4"
+                                className={`text-lg bg-surface-100 text-surface-900 w-full h-12 border border-surface-400 rounded-lg p-4 ${
+                                    errors.zipcode && "border-ui-red-500"
+                                }`}
+                                {...register("zipcode", {
+                                    value: data.zipcode
+                                })}
                             />
                         </div>
                     </div>
@@ -135,11 +207,19 @@ function UserDetails() {
                         <div className="flex flex-col w-full">
                             <label className="text-surface-500 font-sm mb-2">شرکت</label>
                             <input
-                                type="text"
-                                value={data.company}
-                                className="text-lg bg-surface-100 text-surface-900 w-full h-12 border border-surface-400 rounded-lg p-4"
-                                required
+                                className={`text-lg bg-surface-100 text-surface-900 w-full h-12 border border-surface-400 rounded-lg p-4 ${
+                                    errors.company && "border-ui-red-500"
+                                }`}
+                                {...register("company", {
+                                    required: true,
+                                    value: data.company
+                                })}
                             />
+                            {errors.company && errors.company.type === "required" && (
+                                <p className="text-ui-red-500 text-sm mt-1">
+                                    این فیلد الزامی است.
+                                </p>
+                            )}
                         </div>
                     </div>
 
@@ -169,5 +249,12 @@ export async function userDetailsLoader({ params }) {
         `users/${params.id}`
     );
     return response.data;
+}
+
+export async function editUserAction({ request, params }) {
+    const formData = await request.formData();
+    const data = Object.fromEntries(formData);
+    const response = await httpService.put(`users/${params.id}`, data);
+    return redirect('/');
 }
 export default UserDetails;
