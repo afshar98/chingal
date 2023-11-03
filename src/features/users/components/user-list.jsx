@@ -32,12 +32,12 @@ const UserList = ({users}) => {
                         onClick={()=>rowLinkHandler(user.id)}
                         className="cursor-pointer bg-surface-200 even:bg-surface-100 even:bg-noise even:bg-no-repeat even:bg-cover"
                     >
-                        <td className="p-4 text-center border border-surface-300">{user.name}</td>
-                        <td className="p-4 text-center border border-surface-300">{calculateAge(user.dateOfBirth)}</td>
-                        <td className="p-4 text-center border border-surface-300">{user.phoneNumber}</td>
-                        <td className="p-4 text-center border border-surface-300">{user.email}</td>
-                        <td className="p-4 text-center border border-surface-300">{user.city}, {user.street}, {user.zipcode}</td>
-                        <td className="p-4 text-center border border-surface-300">{user.company}</td>
+                        <td className="p-4 text-center border border-surface-300">{user.name ? user.name : '-'}</td>
+                        <td className="p-4 text-center border border-surface-300">{calculateAge(user.dateOfBirth)? calculateAge(user.dateOfBirth) : ''}</td>
+                        <td className="p-4 text-center border border-surface-300">{user.phoneNumber ? user.phoneNumber : '-'}</td>
+                        <td className="p-4 text-center border border-surface-300">{user.email ? user.email : '-'}</td>
+                        <td className="p-4 text-center border border-surface-300">{user.city ? user.city : '-'}, {user.street ? user.street : '-'}, {user.zipcode ? user.zipcode : '-'}</td>
+                        <td className="p-4 text-center border border-surface-300">{user.company ? user.company : '-'}</td>
                     </tr>
                 ))}
                 </tbody>
