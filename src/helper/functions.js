@@ -1,6 +1,5 @@
 const calculateAge = (birthdate) =>{
     const datePattern = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z$/;
-    console.log(typeof birthdate)
     const birthDate = new Date(birthdate);
     const currentDate = new Date();
     const yearsDiff = currentDate.getFullYear() - birthDate.getFullYear();
