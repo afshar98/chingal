@@ -5,15 +5,19 @@ import {FiSearch} from "react-icons/fi";
 import {useSearchContext} from "../../../contexts/search-context.jsx";
 import {LuSunDim} from "react-icons/lu";
 import {PiMoonFill} from "react-icons/pi";
+import {useThemeContext} from "../../../contexts/theme-context.jsx";
 
 function Header() {
 
     const {search, setSearch} = useSearchContext();
+    const {setIsDarkMode} = useThemeContext();
     const location = useLocation();
-    const [isChecked, setIsChecked] = useState(false)
+    const [isChecked, setIsChecked] = useState(true)
 
     const handleCheckboxChange = () => {
-        setIsChecked(!isChecked)
+        setIsChecked(!isChecked);
+        setIsDarkMode(!isChecked);
+        localStorage.setItem('is-dark-mode', !isChecked)
     }
 
     const searchHandler = (e) => {
@@ -22,7 +26,7 @@ function Header() {
     }
     return (
         <nav
-            className="min-h-[60px] flex flex-row justify-between bg-surface-100 text-surface-500 px-2 border-b-2 border-surface-300">
+            className="min-h-[60px] flex flex-row justify-between px-10 bg-surface-900 text-surface-500 border-surface-600 dark:bg-surface-100 dark:text-surface-500 dark:border-surface-300 px-2 border-b-2">
             <Link to='/'>
                 <img src={Logo} alt="chingal" width={200} height={100}/>
             </Link>
@@ -34,7 +38,7 @@ function Header() {
                         <input
                             type="text"
                             value={search}
-                            className="pr-8 bg-gradient-to-t from-surface-300 to-surface-100 border border-surface-300 h-14 w-[512px] p-4 rounded-2xl"
+                            className="pr-8 bg-gradient-to-t from-surface-600 to-surface-900 dark:from-surface-300 dark:to-surface-100 border dark:border-surface-300 h-14 w-[512px] p-4 rounded-2xl"
                             placeholder="جستجو"
                             onChange={searchHandler}
                         />
@@ -49,9 +53,9 @@ function Header() {
                         onChange={handleCheckboxChange}
                         className='sr-only'
                     />
-                    <div className='shadow-card flex h-14 w-20 items-center justify-center rounded-2xl mr-4 bg-white bg-gradient-to-t from-surface-300 to-surface-100 border border-surface-300'>
-                        <span className={`flex h-9 w-9 items-center justify-center rounded-xl text-2xl ${!isChecked ? 'bg-primary-500 text-surface-900' : 'text-body-color'}`}><LuSunDim/></span>
-                        <span className={`flex h-9 w-9 items-center justify-center rounded-xl text-2xl ${isChecked ? 'bg-primary-500 text-surface-900' : 'text-body-color'}`}><PiMoonFill/></span>
+                    <div className='shadow-card flex h-14 w-20 items-center justify-center rounded-2xl mr-4 bg-white bg-gradient-to-t from-surface-600 to-surface-900 border-surface-600 dark:from-surface-300 dark:to-surface-100 border dark:border-surface-300'>
+                        <span className={`flex h-9 w-9 items-center justify-center rounded-xl text-2xl ${!isChecked ? 'bg-primary-500 text-surface-900 dark:bg-primary-500 dark:text-surface-900' : 'text-body-color'}`}><LuSunDim/></span>
+                        <span className={`flex h-9 w-9 items-center justify-center rounded-xl text-2xl ${isChecked ? 'bg-primary-500 text-surface-100 dark:bg-primary-500 dark:text-surface-900' : 'text-body-color'}`}><PiMoonFill/></span>
                     </div>
                 </label>
             </div>
