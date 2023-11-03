@@ -62,9 +62,9 @@
 }
 
 ::-webkit-scrollbar-track {
-    @apply bg-surface-400 rounded
+    @apply bg-surface-500 dark:bg-surface-400 rounded
 }
 
 ::-webkit-scrollbar-thumb {
-    @apply bg-surface-300 rounded
+    @apply bg-surface-600 dark:bg-surface-300 rounded
 }
