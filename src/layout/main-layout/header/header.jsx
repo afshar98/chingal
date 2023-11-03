@@ -27,7 +27,7 @@ function Header() {
                         <input
                             type="text"
                             value={search}
-                            className="pr-8 bg-gradient-to-t from-surface-300 to-surface-100 border border-surface-300 h-14 w-[512px] p-4 rounded-2xl placeholder:pr-4"
+                            className="pr-8 bg-gradient-to-t from-surface-300 to-surface-100 border border-surface-300 h-14 w-[512px] p-4 rounded-2xl"
                             placeholder="جستجو"
                             onChange={searchHandler}
                         />
