@@ -1,13 +1,20 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Logo from '../../../assets/images/chingal-logo.svg';
 import {Link, useLocation} from "react-router-dom";
 import {FiSearch} from "react-icons/fi";
 import {useSearchContext} from "../../../contexts/search-context.jsx";
+import {LuSunDim} from "react-icons/lu";
+import {PiMoonFill} from "react-icons/pi";
 
 function Header() {
 
-    const {search,setSearch} = useSearchContext();
+    const {search, setSearch} = useSearchContext();
     const location = useLocation();
+    const [isChecked, setIsChecked] = useState(false)
+
+    const handleCheckboxChange = () => {
+        setIsChecked(!isChecked)
+    }
 
     const searchHandler = (e) => {
         localStorage.setItem('search-key', e.target.value);
@@ -22,7 +29,7 @@ function Header() {
 
             <div className="flex items-center justify-center">
                 {
-                    location.pathname==='/' &&
+                    location.pathname === '/' &&
                     <div className="flex items-center justify-center relative">
                         <input
                             type="text"
@@ -34,6 +41,19 @@ function Header() {
                         <span className="absolute right-3 text-surface-500"><FiSearch/></span>
                     </div>
                 }
+
+                <label className='themeSwitcherThree relative inline-flex cursor-pointer select-none items-center'>
+                    <input
+                        type='checkbox'
+                        checked={isChecked}
+                        onChange={handleCheckboxChange}
+                        className='sr-only'
+                    />
+                    <div className='shadow-card flex h-14 w-20 items-center justify-center rounded-2xl mr-4 bg-white bg-gradient-to-t from-surface-300 to-surface-100 border border-surface-300'>
+                        <span className={`flex h-9 w-9 items-center justify-center rounded-xl text-2xl ${!isChecked ? 'bg-primary-500 text-surface-900' : 'text-body-color'}`}><LuSunDim/></span>
+                        <span className={`flex h-9 w-9 items-center justify-center rounded-xl text-2xl ${isChecked ? 'bg-primary-500 text-surface-900' : 'text-body-color'}`}><PiMoonFill/></span>
+                    </div>
+                </label>
             </div>
         </nav>
     );
