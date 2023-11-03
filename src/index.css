@@ -56,3 +56,15 @@
 *{
     font-family: 'IRANYekanX', sans-serif;
 }
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    @apply bg-surface-400 rounded
+}
+
+::-webkit-scrollbar-thumb {
+    @apply bg-surface-300 rounded
+}
