@@ -5,7 +5,7 @@ const SearchContext = createContext();
 
 const SearchProvider = ({children}) => {
 
-    const [search, setSearch] = useState('');
+    const [search, setSearch] = useState(localStorage.getItem('search-key') || '');
 
     const value = {
         search,
