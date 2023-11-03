@@ -60,14 +60,14 @@ function UserDetails() {
         <div className="p-10">
             <BreadCrumbs data={beadCrumbs}/>
             <div className="flex min-h-screen items-center justify-center">
-                <div className="w-[540px] p-8 shadow-2xl border border-surface-300 rounded-2xl bg-surface-100 drop-shadow-[24px_24px_96px_#0C132C] mt-5 mb-5">
-                    <h3 className="border-b border-surface-300 font-normal text-2xl pb-2 mb-5">ویرایش کاربر</h3>
+                <div className="w-[540px] p-8 shadow-2xl border border-surface-600 bg-surface-900 drop-shadow-[24px_24px_96px_#7E848E] dark:border-surface-300 dark:bg-surface-100 rounded-2xl dark:drop-shadow-[24px_24px_96px_#0C132C] mt-5 mb-5">
+                    <h3 className="border-b border-surface-600 dark:border-surface-300 font-normal text-2xl pb-2 mb-5">ویرایش کاربر</h3>
 
                     <form onSubmit={handleSubmit(onSubmit)}>
 
                         <div className="flex items-center justify-center mb-5">
                             <Controller
-                                name="avatar" // The name for the form field
+                                name="avatar"
                                 control={control}
                                 defaultValue={data.avatar}
                                 render={({ field }) => (
@@ -105,7 +105,7 @@ function UserDetails() {
                             <div className="flex flex-col w-[calc(50%-10px)]">
                                 <label className="text-surface-500 font-normal mb-2">نام کاربر</label>
                                 <input
-                                    className={`text-lg bg-surface-100 text-surface-900 w-full h-12 border border-surface-400 rounded-lg p-4 ${
+                                    className={`text-lg bg-surface-900 text-surface-100 dark:border-surface-500 dark:bg-surface-100 dark:text-surface-900 border-surface-400 w-full h-12 border rounded-lg p-4 ${
                                         errors.name && "border-ui-red-500"
                                     }`}
                                     {...register("name", {
@@ -122,7 +122,7 @@ function UserDetails() {
                             <div className="flex flex-col w-[calc(50%-10px)]">
                                 <label className="text-surface-500 font-sm mb-2">سن</label>
                                 <input
-                                    className={`text-lg bg-surface-100 text-surface-900 w-full h-12 border border-surface-400 rounded-lg p-4 ${
+                                    className={`text-lg bg-surface-900 text-surface-100 dark:border-surface-500 dark:bg-surface-100 dark:text-surface-900 border-surface-400 w-full h-12 border rounded-lg p-4 ${
                                         errors.dateOfBirth && "border-ui-red-500"
                                     }`}
                                     {...register("dateOfBirth", {
@@ -146,7 +146,7 @@ function UserDetails() {
                             <div className="flex flex-col w-[calc(50%-10px)]">
                                 <label className="text-surface-500 font-sm mb-2">ایمیل</label>
                                 <input
-                                    className={`text-lg bg-surface-100 text-surface-900 w-full h-12 border border-surface-400 rounded-lg p-4 ${
+                                    className={`text-lg bg-surface-900 text-surface-100 dark:border-surface-500 dark:bg-surface-100 dark:text-surface-900 border-surface-400 w-full h-12 border rounded-lg p-4 ${
                                         errors.email && "border-ui-red-500"
                                     }`}
                                     {...register("email", {
@@ -167,7 +167,7 @@ function UserDetails() {
                             <div className="flex flex-col w-[calc(50%-10px)]">
                                 <label className="text-surface-500 font-sm mb-2">شماره تلفن</label>
                                 <input
-                                    className={`text-lg bg-surface-100 text-surface-900 w-full h-12 border border-surface-400 rounded-lg p-4 ${
+                                    className={`text-lg bg-surface-900 text-surface-100 dark:border-surface-500 dark:bg-surface-100 dark:text-surface-900 border-surface-400 w-full h-12 border rounded-lg p-4 ${
                                         errors.phoneNumber && "border-ui-red-500"
                                     }`}
                                     {...register("phoneNumber", {
@@ -191,7 +191,7 @@ function UserDetails() {
                             <div className="flex flex-col w-[calc(25%-10px)]">
                                 <label className="text-surface-500 font-sm mb-2">کشور</label>
                                 <input
-                                    className={`text-lg bg-surface-100 text-surface-900 w-full h-12 border border-surface-400 rounded-lg p-4 ${
+                                    className={`text-lg bg-surface-900 text-surface-100 dark:border-surface-500 dark:bg-surface-100 dark:text-surface-900 border-surface-400 w-full h-12 border rounded-lg p-4 ${
                                         errors.country && "border-ui-red-500"
                                     }`}
                                     {...register("country", {
@@ -202,7 +202,7 @@ function UserDetails() {
                             <div className="flex flex-col w-[calc(25%-10px)]">
                                 <label className="text-surface-500 font-sm mb-2">شهر</label>
                                 <input
-                                    className={`text-lg bg-surface-100 text-surface-900 w-full h-12 border border-surface-400 rounded-lg p-4 ${
+                                    className={`text-lg bg-surface-900 text-surface-100 dark:border-surface-500 dark:bg-surface-100 dark:text-surface-900 border-surface-400 w-full h-12 border rounded-lg p-4 ${
                                         errors.city && "border-ui-red-500"
                                     }`}
                                     {...register("city", {
@@ -213,7 +213,7 @@ function UserDetails() {
                             <div className="flex flex-col w-[calc(25%-10px)]">
                                 <label className="text-surface-500 font-sm mb-2">خیابان</label>
                                 <input
-                                    className={`text-lg bg-surface-100 text-surface-900 w-full h-12 border border-surface-400 rounded-lg p-4 ${
+                                    className={`text-lg bg-surface-900 text-surface-100 dark:border-surface-500 dark:bg-surface-100 dark:text-surface-900 border-surface-400 w-full h-12 border rounded-lg p-4 ${
                                         errors.street && "border-ui-red-500"
                                     }`}
                                     {...register("street", {
@@ -224,7 +224,7 @@ function UserDetails() {
                             <div className="flex flex-col w-[calc(25%-10px)]">
                                 <label className="text-surface-500 font-sm mb-2">کد پستی</label>
                                 <input
-                                    className={`text-lg bg-surface-100 text-surface-900 w-full h-12 border border-surface-400 rounded-lg p-4 ${
+                                    className={`text-lg bg-surface-900 text-surface-100 dark:border-surface-500 dark:bg-surface-100 dark:text-surface-900 border-surface-400 w-full h-12 border rounded-lg p-4 ${
                                         errors.zipcode && "border-ui-red-500"
                                     }`}
                                     {...register("zipcode", {
@@ -238,7 +238,7 @@ function UserDetails() {
                             <div className="flex flex-col w-full">
                                 <label className="text-surface-500 font-sm mb-2">شرکت</label>
                                 <input
-                                    className={`text-lg bg-surface-100 text-surface-900 w-full h-12 border border-surface-400 rounded-lg p-4 ${
+                                    className={`text-lg bg-surface-900 text-surface-100 dark:border-surface-500 dark:bg-surface-100 dark:text-surface-900 border-surface-400 w-full h-12 border rounded-lg p-4 ${
                                         errors.company && "border-ui-red-500"
                                     }`}
                                     {...register("company", {
