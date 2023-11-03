@@ -1,5 +1,11 @@
 import {calculateAge} from "../../../helper/functions.js";
+import {useNavigate} from "react-router-dom";
 const UserList = ({users}) => {
+
+    const navigate = useNavigate();
+    const rowLinkHandler = (e)=>{
+        navigate(`/user/${e}`)
+    }
 
     return (
         <div className="flex justify-center">
@@ -16,7 +22,11 @@ const UserList = ({users}) => {
                 </thead>
                 <tbody>
                 {users.map((user) => (
-                    <tr key={user.id} className="bg-surface-200 even:bg-surface-100 even:bg-noise even:bg-no-repeat even:bg-cover">
+                    <tr
+                        key={user.id}
+                        onClick={()=>rowLinkHandler(user.id)}
+                        className="cursor-pointer bg-surface-200 even:bg-surface-100 even:bg-noise even:bg-no-repeat even:bg-cover"
+                    >
                         <td className="p-4 text-center border border-surface-300">{user.name}</td>
                         <td className="p-4 text-center border border-surface-300">{calculateAge(user.dateOfBirth)}</td>
                         <td className="p-4 text-center border border-surface-300">{user.phoneNumber}</td>
