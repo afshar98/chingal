@@ -1,6 +1,8 @@
 import {calculateAge} from "../../../helper/functions.js";
 import {useNavigate} from "react-router-dom";
 import {useSearchContext} from "../../../contexts/search-context.jsx";
+import {useState} from "react";
+import {IoIosArrowDown, IoIosArrowUp} from "react-icons/io";
 const UserList = ({users}) => {
 
     const {search} = useSearchContext();
@@ -12,12 +14,45 @@ const UserList = ({users}) => {
         navigate(`/user/${e}`)
     }
 
+    const [sortKey, setSortKey] = useState(localStorage.getItem('sort-key') || null);
+    const [sortOrder, setSortOrder] = useState(localStorage.getItem('sort-order') || 'asc');
+
+    const handleSort = (key) => {
+        if (key === sortKey) {
+            setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+            localStorage.setItem('sort-order', sortOrder === 'asc' ? 'desc' : 'asc')
+        } else {
+            setSortKey(key);
+            localStorage.setItem('sort-key', key)
+            setSortOrder('asc');
+            localStorage.setItem('sort-order', 'asc')
+        }
+    };
+
+    const sortedData = [...filteredUsers].sort((a, b) => {
+        if (sortKey === null) {
+            return a.id - b.id;
+        } else {
+            const compareValue = a[sortKey].localeCompare(b[sortKey]);
+            return sortOrder === 'asc' ? compareValue : -compareValue;
+        }
+    });
+
+
+
     return (
         <div className="h-[calc(100vh-250px)] overflow-y-scroll border border-surface-300 rounded-2xl">
             <table className="min-w-full border-collapse">
                 <thead className="sticky top-0 bg-surface-100 bg-noise bg-no-repeat bg-cover">
                 <tr>
-                    <th className="border border-surface-300 text-surface-500 text-sm font-normal">نام کاربر</th>
+                    <th
+                        onClick={() => handleSort('name')}
+                        className={`border cursor-pointer border-surface-300 text-surface-500 text-sm font-normal flex items-center justify-center ${
+                            sortKey === 'name' && 'bg-primary-500 text-surface-900'
+                        }`}>                        نام کاربر
+                        {sortKey === 'name' && sortOrder === 'asc' && <IoIosArrowUp/>}
+                        {sortKey === 'name' && sortOrder === 'desc' && <IoIosArrowDown/>}
+                    </th>
                     <th className="border border-surface-300 text-surface-500 text-sm font-normal">سن</th>
                     <th className="border border-surface-300 text-surface-500 text-sm font-normal">شماره تلفن</th>
                     <th className="border border-surface-300 text-surface-500 text-sm font-normal">ایمیل</th>
@@ -26,7 +61,7 @@ const UserList = ({users}) => {
                 </tr>
                 </thead>
                 <tbody>
-                {filteredUsers.map((user) => (
+                {sortedData.map((user) => (
                     <tr
                         key={user.id}
                         onClick={()=>rowLinkHandler(user.id)}
