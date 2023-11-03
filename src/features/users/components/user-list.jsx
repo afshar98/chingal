@@ -1,6 +1,11 @@
 import {calculateAge} from "../../../helper/functions.js";
 import {useNavigate} from "react-router-dom";
+import {useSearchContext} from "../../../contexts/search-context.jsx";
 const UserList = ({users}) => {
+
+    const {search} = useSearchContext();
+
+    const filteredUsers = users.filter((user) => user.name.includes(search));
 
     const navigate = useNavigate();
     const rowLinkHandler = (e)=>{
@@ -21,7 +26,7 @@ const UserList = ({users}) => {
                 </tr>
                 </thead>
                 <tbody>
-                {users.map((user) => (
+                {filteredUsers.map((user) => (
                     <tr
                         key={user.id}
                         onClick={()=>rowLinkHandler(user.id)}
