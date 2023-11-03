@@ -4,7 +4,7 @@ import {Outlet} from "react-router-dom";
 
 function MainLayout() {
     return (
-        <div className="container bg-surface-100 bg-noise bg-cover bg-no-repeat text-surface-900" dir="rtl">
+        <div className="container bg-surface-100 bg-noise bg-cover bg-no-repeat text-surface-900 min-h-screen" dir="rtl">
             <Header/>
             <main>
                 <Outlet />
