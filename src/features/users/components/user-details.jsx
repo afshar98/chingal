@@ -123,20 +123,20 @@ function UserDetails() {
                                 <label className="text-surface-500 font-sm mb-2">سن</label>
                                 <input
                                     className={`text-lg bg-surface-100 text-surface-900 w-full h-12 border border-surface-400 rounded-lg p-4 ${
-                                        errors.age && "border-ui-red-500"
+                                        errors.dateOfBirth && "border-ui-red-500"
                                     }`}
-                                    {...register("age", {
+                                    {...register("dateOfBirth", {
                                         required: true,
                                         value:calculateAge(data.dateOfBirth),
                                         pattern: /^[0-9]{1,3}$/
                                     })}
                                 />
-                                {errors.age && errors.age.type === "required" && (
+                                {errors.dateOfBirth && errors.dateOfBirth.type === "required" && (
                                     <p className="text-ui-red-500 text-sm mt-1">
                                         این فیلد الزامی است.
                                     </p>
                                 )}
-                                {errors.age && errors.age.type === "pattern" && (
+                                {errors.dateOfBirth && errors.dateOfBirth.type === "pattern" && (
                                     <p className="text-ui-red-500 text-sm mt-1">فرمت وارد شده صحیح نیست.</p>
                                 )}
                             </div>
@@ -168,7 +168,7 @@ function UserDetails() {
                                 <label className="text-surface-500 font-sm mb-2">شماره تلفن</label>
                                 <input
                                     className={`text-lg bg-surface-100 text-surface-900 w-full h-12 border border-surface-400 rounded-lg p-4 ${
-                                        errors.email && "border-ui-red-500"
+                                        errors.phoneNumber && "border-ui-red-500"
                                     }`}
                                     {...register("phoneNumber", {
                                         required: true,
@@ -192,7 +192,7 @@ function UserDetails() {
                                 <label className="text-surface-500 font-sm mb-2">کشور</label>
                                 <input
                                     className={`text-lg bg-surface-100 text-surface-900 w-full h-12 border border-surface-400 rounded-lg p-4 ${
-                                        errors.name && "border-ui-red-500"
+                                        errors.country && "border-ui-red-500"
                                     }`}
                                     {...register("country", {
                                         value: data.country
