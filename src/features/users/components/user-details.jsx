@@ -255,6 +255,8 @@ export async function editUserAction({ request, params }) {
     const formData = await request.formData();
     const data = Object.fromEntries(formData);
     const response = await httpService.put(`users/${params.id}`, data);
-    return redirect('/');
+    if (response.status === 200) {
+        return redirect('/');
+    }
 }
 export default UserDetails;
