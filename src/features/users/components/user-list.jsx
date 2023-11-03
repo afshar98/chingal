@@ -13,10 +13,10 @@ const UserList = ({users}) => {
     }
 
     return (
-        <div className="flex justify-center">
-            <table className="w-full border border-surface-300 border-collapse rounded-2xl">
-                <thead>
-                <tr className="bg-surface-100 bg-noise bg-no-repeat bg-cover">
+        <div className="h-[calc(100vh-250px)] overflow-y-scroll border border-surface-300 rounded-2xl">
+            <table className="min-w-full border-collapse">
+                <thead className="sticky top-0 bg-surface-100 bg-noise bg-no-repeat bg-cover">
+                <tr>
                     <th className="border border-surface-300 text-surface-500 text-sm font-normal">نام کاربر</th>
                     <th className="border border-surface-300 text-surface-500 text-sm font-normal">سن</th>
                     <th className="border border-surface-300 text-surface-500 text-sm font-normal">شماره تلفن</th>
