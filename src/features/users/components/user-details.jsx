@@ -3,12 +3,15 @@ import { useLoaderData } from "react-router";
 import {httpService} from "@core/http-service.js";
 import {calculateAge} from "../../../helper/functions.js";
 import {Controller, useForm} from "react-hook-form";
-import {redirect, useSubmit} from "react-router-dom";
+import {redirect, useNavigate, useSubmit} from "react-router-dom";
 
 function UserDetails() {
 
     const data = useLoaderData();
     const [imagePreview, setImagePreview] = useState(data.avatar);
+    const [removeLoading, setRemoveLoading] = useState(false)
+    const [submitLoading, setSubmitLoading] = useState(false)
+    const navigate = useNavigate();
     const {
         register,
         handleSubmit,
@@ -24,8 +27,21 @@ function UserDetails() {
     }, [data.avatar]);
 
     const onSubmit = (data) => {
+        setSubmitLoading(true)
         submitForm(data, { method: "put" });
     };
+
+    const removeUserHandler = async () =>{
+        setRemoveLoading(true)
+        const response = await httpService.delete(`users/${data.id}`, []);
+        if(response.status===200){
+            navigate('/');
+        }
+        else{
+            console.log('error happened')
+        }
+
+    }
 
     return (
         <div className="flex min-h-screen items-center justify-center">
@@ -226,15 +242,18 @@ function UserDetails() {
                     <div className="flex flex-row justify-between items-center">
                         <button
                             type="submit"
-                            className="flex flex-col w-[calc(50%-10px)] items-center justify-center text-lg bg-primary-500 text-surface-900 h-14 rounded-2xl transition-all hover:drop-shadow-[0_0px_8px_#033699]"
+                            className="flex flex-col w-[calc(50%-10px)] items-center justify-center text-lg bg-primary-500 text-surface-900 h-14 rounded-2xl transition-all hover:drop-shadow-[0_0px_8px_#033699] disabled:cursor-no-drop disabled:bg-primary-700 disabled:drop-shadow-none"
+                            disabled={submitLoading}
                         >
-                            ویرایش
+                            {submitLoading? "درحال ویرایش" : "ویرایش"}
                         </button>
                         <button
                             type="button"
-                            className="flex flex-col w-[calc(50%-10px)] items-center justify-center text-lg bg-ui-red-500 text-surface-900 h-14 rounded-2xl transition-all hover:drop-shadow-[0_0px_8px_#8D2129]"
+                            className="flex flex-col w-[calc(50%-10px)] items-center justify-center text-lg bg-ui-red-500 text-surface-900 h-14 rounded-2xl transition-all hover:drop-shadow-[0_0px_8px_#8D2129] disabled:cursor-no-drop disabled:bg-ui-red-700 disabled:drop-shadow-none"
+                            onClick={removeUserHandler}
+                            disabled={removeLoading}
                         >
-                            حذف
+                            {removeLoading? "درحال حذف" : "حذف"}
                         </button>
                     </div>
 
